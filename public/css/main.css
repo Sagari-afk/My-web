@@ -1,0 +1,179 @@
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-200.ttf");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-250.ttf");
+  font-weight: 250;
+}
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-400.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-700.ttf");
+  font-weight: 700;
+}
+
+html {
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(174, 113, 58, 0.12) 100%
+    ),
+    linear-gradient(to left, #393640 50%, #ffffff 50%);
+  background-attachment: fixed;
+}
+body {
+  margin: 0;
+}
+
+header {
+  display: flex;
+  height: 5rem;
+  padding: 0 7rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(2px);
+}
+
+a {
+  text-decoration: none;
+}
+h1 {
+  color: #151515;
+  font-family: Aspekta;
+  font-size: 3.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 3.75rem; /* 107.143% */
+  margin: 0;
+}
+
+header div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.logo-font {
+  margin: 0;
+  color: #000;
+  font-family: Sarina;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.small-text {
+  color: #a0a0a0;
+  font-family: Aspekta;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.75rem; /* 300% */
+  margin: 0;
+}
+.log {
+  padding: 0rem 1.5rem;
+  color: #c484f6;
+  border-radius: 0.25rem;
+  background: rgba(196, 132, 246, 0.21);
+}
+
+/* koniec headeru */
+.cat-img-container {
+  position: relative;
+}
+
+.c-img {
+  width: 40rem;
+  height: auto;
+}
+
+.right-eye {
+  left: 0%;
+  position: absolute;
+}
+.left-eye {
+  left: 0%;
+  position: absolute;
+}
+
+section {
+  margin-right: 6rem;
+  margin-left: 6rem;
+  display: flex;
+  align-items: center;
+}
+
+.fish-img {
+  top: 89%;
+  left: 44%;
+  position: absolute;
+}
+
+.arts-side,
+.code-side {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.code-side {
+  align-items: flex-end;
+}
+
+.arts-side div,
+.code-side div {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  align-items: center;
+}
+
+.code-side h1 {
+  color: #fff;
+  text-align: right;
+}
+.arts-link,
+.code-link {
+  color: #fff;
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3.75rem; /* 250% */
+  padding: 0rem 2rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(96deg, #7751bd 3.06%, #c484f6 108.42%);
+}
+.code-link {
+  background: #fff;
+  color: var(--Purp, #7751bd);
+}
+
+/* animation */
+.fish-img {
+  animation-name: fish;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fish {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
