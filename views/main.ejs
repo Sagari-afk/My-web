@@ -2,14 +2,17 @@
 <html lang="en">
   <head>
     <%- include("includes/head.ejs") %>
+    <script src="js/main.js" defer></script>
   </head>
   <body>
     <header>
-      <a href="" class="logo-font">Sagarkalis</a>
-      <div>
-        <a href="" class="small-text">Arts</a>
-        <a href="" class="small-text">Projects</a>
-        <a href="" class="small-text log">Log in</a>
+      <div class="container">
+        <a href="" class="logo-font">Sagarkalis</a>
+        <div>
+          <a href="" class="small-text">Arts</a>
+          <a href="" class="small-text">Projects</a>
+          <a href="" class="small-text log">Log in</a>
+        </div>
       </div>
     </header>
 
@@ -26,13 +29,11 @@
 
       <div class="cat-side">
         <div class="cat-img-container">
-          <img class="cat-img c-img" src="assets/cat.png" alt="cat" />
-          <img class="right-eye c-img" src="assets/right-eye.png" alt="" />
-          <img class="left-eye c-img" src="assets/left-eye.png" alt="" />
-          <!-- Edit fish -->
-          <div class="fish-img">
-            <img src="assets/temp-fish.png" alt="" />
-          </div>
+          <img class="c-img" id="cat-img" src="assets/cat.png" alt="cat" />
+          <img class="c-img" id="right-eye" src="assets/right-eye.png" alt="" />
+          <img class="c-img" id="left-eye" src="assets/left-eye.png" alt="" />
+
+          <img id="fish-img" src="assets/circle-text.png" alt="" />
         </div>
       </div>
 
