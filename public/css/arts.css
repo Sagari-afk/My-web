@@ -1,0 +1,145 @@
+html {
+  background: url("/assets/bg_clouds_.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.head h1,
+.head p {
+  color: white;
+}
+
+.head {
+  gap: 5.7rem;
+}
+.head .cards {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+.head .card {
+  cursor: pointer;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  width: 10%;
+  height: 32rem;
+  border-radius: 2rem;
+  display: block;
+  transition: all 0.5s ease-in-out;
+}
+
+.head .active {
+  width: 350px;
+}
+
+.search {
+  display: flex;
+  width: 70rem;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 1.5rem;
+
+  border-radius: 3.375rem;
+  border: 1.5px solid #7751bd;
+  background: rgba(255, 255, 255, 0.16);
+}
+.search-by-title {
+  background: none;
+  border: none;
+  width: 100%;
+}
+.search-by-title:focus-visible {
+  outline: none;
+}
+.search-by-title[type="text"],
+.search-by-title[type="text"]::placeholder {
+  color: rgba(119, 81, 189, 0.64) !important;
+
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.card-img {
+  height: 35rem;
+  border-radius: 0.75rem;
+}
+ul {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8.375rem;
+  width: 60rem;
+}
+li {
+  list-style-type: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 5rem;
+}
+li p {
+  color: #151515;
+  font-size: 1.5rem;
+  line-height: normal;
+  padding: 0;
+}
+.card-datails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+.icons {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.comment-part {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.comment-part p {
+  color: #7751bd;
+  font-size: 1.5rem;
+}
+
+.react {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.more {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.more button {
+  padding: 0.5rem 1.5rem;
+  align-items: center;
+  border-radius: 0.25rem;
+  background: linear-gradient(96deg, #7751bd 3.06%, #c484f6 108.42%);
+  color: #fff;
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-weight: 400;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+.comment-part input::placeholder,
+.comment-part input {
+  color: rgba(85, 68, 116, 0.8);
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 250;
+  outline: none;
+  border: none;
+}

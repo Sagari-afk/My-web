@@ -2,27 +2,18 @@
 <html lang="en">
   <head>
     <%- include("includes/head.ejs") %>
+    <link rel="stylesheet" href="/css/main.css" />
     <script src="js/main.js" defer></script>
   </head>
   <body>
-    <header>
-      <div class="container">
-        <a href="" class="logo-font">Sagarkalis</a>
-        <div>
-          <a href="" class="small-text">Arts</a>
-          <a href="" class="small-text">Projects</a>
-          <a href="" class="small-text log">Log in</a>
-        </div>
-      </div>
-    </header>
-
+    <%- include("includes/header.ejs") %>
     <section>
       <div class="arts-side">
         <h1>Artful Expression in the Digital Realm</h1>
         <div>
           <a class="arts-link" href="">Arts</a>
           <a href="https://www.instagram.com/sagarkalis/">
-            <img src="assets/instagram.png" alt="inst_logo" />
+            <img src="assets/instagram.svg" alt="inst_logo" />
           </a>
         </div>
       </div>
@@ -41,7 +32,7 @@
         <h1>Navigating the Code Canvas for Excellence</h1>
         <div>
           <a href="https://github.com/Sagari-afk">
-            <img src="assets/github.png" alt="git_logo" />
+            <img src="assets/github.svg" alt="git_logo" />
           </a>
           <a class="code-link" href="">Projects</a>
         </div>

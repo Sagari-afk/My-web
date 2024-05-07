@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("includes/head.ejs") %>
+    <link rel="stylesheet" href="/css/arts.css" />
+    <script src="js/arts.js" defer></script>
+  </head>
+  <body>
+    <%- include("includes/header.ejs") %>
+    <section class="centered-container head">
+      <div class="text-centered">
+        <h1>GALLERY</h1>
+        <p>Artful Expression in the Digital Realm</p>
+      </div>
+      <div class="cards">
+        <img
+          class="card active"
+          src="/assets/photo_2024-02-17_19-32-56 1.png"
+          alt=""
+        />
+        <img class="card" src="/assets/ai.PNG" alt="" />
+        <img class="card" src="/assets/photo_2024-05-06_16-32-38.jpg" alt="" />
+        <img class="card" src="/assets/кореяночка1 1.png" alt="" />
+      </div>
+    </section>
+
+    <section class="centered-container">
+      <form class="search">
+        <img src="/assets/search.png" alt="" />
+        <input
+          placeholder="Search by title"
+          type="text"
+          class="search-by-title"
+          id="search"
+          name="search"
+        />
+      </form>
+
+      <ul>
+        <li>
+          <img class="card-img" src="/assets/ai.PNG" alt="" />
+          <div class="card-datails">
+            <h2>Title of art</h2>
+            <p>
+              Toffee bonbon cake biscuit chocolate cake lollipop chocolate bar
+              biscuit dragée. Halvah cotton candy jelly jelly-o cake cheesecake.
+            </p>
+
+            <div class="comment-part">
+              <div class="react">
+                <div class="icons">
+                  <img height="35px" src="/assets/like-icon.svg" alt="" />
+                  <img height="35px" src="/assets/comment-icon.svg" alt="" />
+                  <img height="35px" src="/assets/share-icon.svg" alt="" />
+                </div>
+                <p>100 likes</p>
+                <input
+                  placeholder="Add a comment..."
+                  type="comment"
+                  class="comment"
+                  id="comment1"
+                  name="comment"
+                />
+              </div>
+              <div class="more">
+                <button>More</button>
+                <a href=""><img src="/assets/instagram.svg" alt="" /></a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="card-datails">
+            <h2>Title of art</h2>
+            <p>
+              Toffee bonbon cake biscuit chocolate cake lollipop chocolate bar
+              biscuit dragée. Halvah cotton candy jelly jelly-o cake cheesecake.
+            </p>
+
+            <div class="comment-part">
+              <div class="react">
+                <div class="icons">
+                  <img height="35px" src="/assets/like-icon.svg" alt="" />
+                  <img height="35px" src="/assets/comment-icon.svg" alt="" />
+                  <img height="35px" src="/assets/share-icon.svg" alt="" />
+                </div>
+                <p>100 likes</p>
+                <input
+                  placeholder="Add a comment..."
+                  type="comment"
+                  class="comment"
+                  id="comment1"
+                  name="comment"
+                />
+              </div>
+              <div class="more">
+                <button>More</button>
+                <a href=""><img src="/assets/instagram.svg" alt="" /></a>
+              </div>
+            </div>
+          </div>
+          <img class="card-img" src="/assets/ai.PNG" alt="" />
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>

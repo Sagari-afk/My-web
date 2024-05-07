@@ -1,0 +1,134 @@
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-200.ttf");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-250.ttf");
+  font-weight: 250;
+}
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-400.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Aspekta";
+  src: url("../assets/fonts/Aspekta-700.ttf");
+  font-weight: 700;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  max-width: 1350px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+header {
+  z-index: 10;
+  display: flex;
+  /* height: 5rem; */
+  padding: 0.8rem 0;
+  align-items: center;
+
+  position: fixed;
+  width: 100%;
+  justify-content: center;
+
+  /* background: #39364051; */
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.813);
+}
+
+a {
+  text-decoration: none;
+  padding: 0 -10px;
+}
+h1 {
+  color: #151515;
+  font-family: Aspekta;
+  font-size: 2.8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 3.75rem; /* 107.143% */
+  margin: 0;
+}
+h2 {
+  color: #151515;
+  font-family: Aspekta;
+  font-size: 4rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+}
+p {
+  color: #232323;
+  font-family: Aspekta;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 3rem; /* 300% */
+  padding: 0rem 1rem;
+  margin: 0;
+}
+
+header div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-font {
+  margin: 0;
+  color: #000;
+  font-family: Sarina;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.small-text {
+  font-family: Aspekta;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2.5rem; /* 300% */
+  padding: 0rem 1rem;
+  margin: 0;
+}
+#signin {
+  color: #c484f6;
+  border-radius: 0.25rem;
+  background: rgba(196, 132, 246, 0.21);
+}
+
+#login {
+  border: solid 2px rgba(196, 132, 246, 0.21);
+  border-radius: 0.25rem;
+}
+
+.centered-container {
+  padding-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.err-img {
+  margin-top: 1.5rem;
+  height: 30rem;
+  width: auto;
+}
+
+.text-centered {
+  text-align: center;
+}
