@@ -31,38 +31,11 @@ html {
   width: 350px;
 }
 
-.search {
-  display: flex;
-  width: 70rem;
-  padding: 0.5rem 1rem;
-  align-items: center;
-  gap: 1.5rem;
-
-  border-radius: 3.375rem;
-  border: 1.5px solid #7751bd;
-  background: rgba(255, 255, 255, 0.16);
-}
-.search-by-title {
-  background: none;
-  border: none;
-  width: 100%;
-}
-.search-by-title:focus-visible {
-  outline: none;
-}
-.search-by-title[type="text"],
-.search-by-title[type="text"]::placeholder {
-  color: rgba(119, 81, 189, 0.64) !important;
-
-  font-family: Aspekta;
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 400;
-}
-
 .card-img {
   height: 35rem;
+  max-width: 45rem;
   border-radius: 0.75rem;
+  animation: fadeImg 1s;
 }
 ul {
   margin-top: 5rem;
@@ -73,6 +46,7 @@ ul {
   width: 60rem;
 }
 li {
+  width: 70rem;
   list-style-type: none;
   display: flex;
   align-items: flex-start;
@@ -83,63 +57,29 @@ li p {
   font-size: 1.5rem;
   line-height: normal;
   padding: 0;
-}
-.card-datails {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2.5rem;
-}
-.icons {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.1rem;
-}
-
-.comment-part {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
 }
-.comment-part p {
-  color: #7751bd;
-  font-size: 1.5rem;
+.card-details {
+  width: 100%;
 }
 
-.react {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.more {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.more button {
-  padding: 0.5rem 1.5rem;
-  align-items: center;
-  border-radius: 0.25rem;
-  background: linear-gradient(96deg, #7751bd 3.06%, #c484f6 108.42%);
-  color: #fff;
-  font-family: Aspekta;
-  font-size: 1.5rem;
-  font-weight: 400;
+#next-btn,
+#prev-btn {
+  background: none;
+  color: rgb(197, 132, 246);
   border: none;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-}
-.comment-part input::placeholder,
-.comment-part input {
-  color: rgba(85, 68, 116, 0.8);
-  font-family: Aspekta;
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 250;
   outline: none;
-  border: none;
+  cursor: pointer;
+  font-size: 3rem;
+}
+#next-btn:hover,
+#prev-btn:hover {
+  color: #7751bd;
+}
+.flex {
+  display: flex;
+  gap: 5rem;
+}
+.margin {
+  margin: 2.5rem auto;
 }

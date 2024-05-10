@@ -59,7 +59,7 @@ h1 {
   margin: 0;
 }
 h2 {
-  color: #151515;
+  color: #7751bd;
   font-family: Aspekta;
   font-size: 4rem;
   font-style: normal;
@@ -74,7 +74,7 @@ p {
   font-style: normal;
   font-weight: 400;
   line-height: 3rem; /* 300% */
-  padding: 0rem 1rem;
+  padding: 0;
   margin: 0;
 }
 
@@ -121,6 +121,7 @@ header div {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .err-img {
@@ -132,6 +133,9 @@ header div {
 .text-centered {
   text-align: center;
 }
+.text-centered p {
+  font-weight: 100;
+}
 
 footer {
   display: flex;
@@ -140,6 +144,7 @@ footer {
   gap: 2rem;
   background: #3b3841;
 }
+
 footer > div:first-of-type {
   display: flex;
   gap: 0.2rem;
@@ -156,4 +161,104 @@ footer p {
   font-style: normal;
   font-weight: 200;
   line-height: 1.3rem; /* 300% */
+}
+footer img {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(3644%)
+    hue-rotate(48deg) brightness(106%) contrast(100%);
+}
+
+.search {
+  display: flex;
+  width: 70rem;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  gap: 1.5rem;
+
+  border-radius: 3.375rem;
+  border: 1.5px solid #7751bd;
+  background: rgba(255, 255, 255, 0.16);
+}
+.search-by-title {
+  background: none;
+  border: none;
+  width: 100%;
+}
+.search-by-title:focus-visible {
+  outline: none;
+}
+.search-by-title[type="text"],
+.search-by-title[type="text"]::placeholder {
+  color: rgba(119, 81, 189, 0.64) !important;
+
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+}
+.comment-part {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.comment-part p {
+  color: #7751bd;
+  font-size: 1.5rem;
+}
+
+.react {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.more {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.more button {
+  padding: 0.5rem 1.5rem;
+  align-items: center;
+  border-radius: 0.25rem;
+  background: linear-gradient(96deg, #7751bd 3.06%, #c484f6 108.42%);
+  color: #fff;
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-weight: 400;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+.comment-part input::placeholder,
+.comment-part input {
+  color: rgba(85, 68, 116, 0.8);
+  font-family: Aspekta;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 250;
+  outline: none;
+  border: none;
+}
+.icons {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+.card-datails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+@keyframes fadeImg {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

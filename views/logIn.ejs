@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("includes/head.ejs") %>
+    <link rel="stylesheet" href="/css/sign.css" />
+  </head>
+  <body>
+    <%- include("includes/header.ejs") %>
+    <section class="centered-container">
+      <h1>LOG IN</h1>
+      <form class="flex-column" style="width: 25rem">
+        <div class="flex-column max-width">
+          <div class="flex-column max-width">
+            <label for="email">Your email</label>
+            <input id="email" type="email" placeholder="jondoe@gmail.com" />
+          </div>
+          <div class="flex-column max-width">
+            <label for="password">Create password</label>
+            <input id="password" type="password" />
+          </div>
+        </div>
+        <button type="submit">Log in</button>
+      </form>
+    </section>
+    <%- include("includes/footer.ejs") %>
+  </body>
+</html>
