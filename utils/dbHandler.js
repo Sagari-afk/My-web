@@ -10,6 +10,7 @@ const init = async () => {
               title varchar(255) NOT NULL,
               description TEXT,
               likes_count INT default 0,
+              post_url TEXT NOT NULL,
               primary key(art_id)
           );`);
   for (id of instPostIds) {
@@ -19,11 +20,42 @@ const init = async () => {
 
 const insertArt = async (id) => {
   const temp = await instHandler.getInstPostById(id);
+  console.log("temp:", temp);
   await db.query(
     `
-          INSERT INTO arts (img_url, title, description, post_id) VALUES
-          (?, ?, ?, ?);`,
-    [temp.media_url, "Art", temp.caption, id]
+          INSERT INTO arts (img_url, title, description, post_id, post_url) VALUES
+          (?, ?, ?, ?, ?);`,
+    [temp.media_url, "Art", temp.caption, id, temp.permalink]
+  );
+};
+
+const getLikesCountById = async (id) => {
+  return await db.query(`SELECT likes_count FROM arts WHERE art_id = (?)`, id);
+};
+
+const likeById = async (id) => {
+  let likes = await getLikesCountById(id);
+  likes = likes[0][0].likes_count;
+
+  likes++;
+  console.log("likes from dbHandler: ", likes);
+  await db.query(
+    `
+  UPDATE arts SET likes_count = (?) WHERE art_id = (?)`,
+    [likes, id]
+  );
+};
+
+const dislikeById = async (id) => {
+  let likes = await getLikesCountById(id);
+  likes = likes[0][0].likes_count;
+  if (likes < 1) return;
+  likes--;
+  console.log("dislikes from dbHandler: ", likes);
+  await db.query(
+    `
+  UPDATE arts SET likes_count = (?) WHERE art_id = (?)`,
+    [likes, id]
   );
 };
 
@@ -45,7 +77,7 @@ const updateArts = async () => {
 };
 
 const getArtsByKeyWord = async (keyWord) => {
-  keyWord = "% " + keyWord + " %";
+  keyWord = "%" + keyWord + "%";
   const [records] = await db.query(
     `SELECT * FROM arts WHERE description LIKE (?) `,
     keyWord
@@ -63,4 +95,7 @@ module.exports = {
   getAllArts,
   updateArts,
   getArtsByKeyWord,
+  likeById,
+  dislikeById,
+  getLikesCountById,
 };

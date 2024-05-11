@@ -32,25 +32,21 @@
         />
       </form>
 
-      <div class="arts-container">
+      <div class="arts-container" id="arts-container">
         <ul>
           <% if (arts.length === 0) { %>
           <p>NO ARTS</p>
-          <% } else { %> <% for (const art of arts) { %> <%-
-          include("includes/artItem.ejs", { artUrl: art.img_url, description:
-          art.description, artLikes: art.likes_count }) %> <% } %> <% } %>
+          <% } else { %> <% for (let i = 0; i < 5; i++) { %> <% if (arts[i]) {
+          %> <%- include("includes/artItem.ejs", { artUrl: arts[i].img_url,
+          description: arts[i].description, artLikes: arts[i].likes_count, url:
+          arts[i].post_url, id:arts[i].art_id }) %> <% } %> <% } %> <% } %>
         </ul>
       </div>
-      <!-- <div class="flex margin">
-        <button id="prev-btn" data-page="<%= currentPage - 1 %>"><</button>
-        <button
-          id="next-btn"
-          data-page="<%= currentPage + 1 %>"
-          data-total-pages="<%= totalPages %>"
-        >
-          >
-        </button>
-      </div> -->
+      <div class="flex margin">
+        <button id="prev-btn"><</button>
+        <p id="pageNum">1 / <%= parseInt(Math.ceil(arts.length / 5)); %></p>
+        <button id="next-btn">></button>
+      </div>
     </section>
 
     <%- include("includes/footer.ejs") %>

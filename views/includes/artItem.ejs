@@ -8,11 +8,27 @@
     <div class="comment-part">
       <div class="react">
         <div class="icons">
-          <img height="35px" src="/assets/like-icon.svg" alt="" />
-          <img height="35px" src="/assets/comment-icon.svg" alt="" />
-          <img height="35px" src="/assets/share-icon.svg" alt="" />
+          <img
+            id="like<%= id %>"
+            height="35px"
+            src="/assets/like-icon.svg"
+            alt=""
+          />
+          <img
+            class="comment"
+            height="35px"
+            src="/assets/comment-icon.svg"
+            alt=""
+          />
+          <img
+            id="share<%= id %>"
+            class="share"
+            height="35px"
+            src="/assets/share-icon.svg"
+            alt=""
+          />
         </div>
-        <p class="post-likes"><%= artLikes %> likes</p>
+        <p id="like-p<%= id %>" class="post-likes"><%= artLikes %> likes</p>
         <input
           placeholder="Add a comment..."
           type="comment"
@@ -23,7 +39,7 @@
       </div>
       <div class="more">
         <button>More</button>
-        <a href="https://www.instagram.com/sagarkalis/"
+        <a href="<%= url %>" target="_blank"
           ><img
             src="/assets/instagram.svg"
             alt=""

@@ -57,29 +57,39 @@ li p {
   font-size: 1.5rem;
   line-height: normal;
   padding: 0;
-  width: 100%;
 }
 .card-details {
   width: 100%;
 }
 
 #next-btn,
-#prev-btn {
+#prev-btn,
+#pageNum {
   background: none;
   color: rgb(197, 132, 246);
   border: none;
   outline: none;
+  font-size: 2rem;
+}
+#next-btn,
+#prev-btn {
   cursor: pointer;
-  font-size: 3rem;
 }
 #next-btn:hover,
 #prev-btn:hover {
   color: #7751bd;
 }
+
 .flex {
   display: flex;
   gap: 5rem;
 }
 .margin {
   margin: 2.5rem auto;
+}
+ul {
+  padding: 0;
+}
+li:nth-child(even) {
+  flex-direction: row-reverse;
 }
