@@ -67,7 +67,7 @@ const createArtsData = (answers, page) => {
             />
           </div>
           <div class="more">
-            <button>More</button>
+            <button id="btn-more${id}">More</button>
             <a href="${answers[i].post_url}" target='_blank'
               ><img
                 src="/assets/instagram.svg"
@@ -120,9 +120,6 @@ const showNextAns = async (backwards) => {
   }
 };
 
-prevBtn.addEventListener("click", () => showNextAns(true));
-nextBtn.addEventListener("click", () => showNextAns(false));
-
 // LIKES:
 
 const setArgsForReq = (id, like) => {
@@ -144,9 +141,38 @@ const setArgsForReq = (id, like) => {
 const likePost = async (i, length) => {
   for (i; i <= length; i++) {
     const likesImg = document.getElementById(`like${i}`);
-    const lekesP = document.getElementById(`like-p${i}`);
+    const likesP = document.getElementById(`like-p${i}`);
+
+    const modalLikesImg = document.getElementById(`modal-like${i}`);
+    const modalLikesP = document.getElementById(`modal-like-p${i}`);
     let clickCount = 1;
     const id = i;
+    console.log(modalLikesImg, modalLikesP);
+    if (modalLikesImg && modalLikesP) {
+      modalLikesImg.addEventListener("click", async (event) => {
+        event.preventDefault();
+        clickCount++;
+        if (clickCount % 2 === 0) {
+          modalLikesImg.src = "/assets/like_pressed_icon.svg";
+          const [postData, options] = setArgsForReq(id, true);
+          const response = await fetch(`/arts`, options);
+          if (response.ok) {
+            const resp = await response.json();
+            console.log(resp[0][0].likes_count + 1);
+            modalLikesP.textContent = `${resp[0][0].likes_count + 1} likes`;
+          }
+        } else {
+          modalLikesImg.src = "/assets/like-icon.svg";
+          const [postData, options] = setArgsForReq(id, false);
+          const response = await fetch(`/arts`, options);
+          if (response.ok) {
+            const resp = await response.json();
+            console.log(resp[0][0].likes_count - 1);
+            modalLikesP.textContent = `${resp[0][0].likes_count - 1} likes`;
+          }
+        }
+      });
+    }
     likesImg.addEventListener("click", async (event) => {
       event.preventDefault();
       clickCount++;
@@ -157,7 +183,7 @@ const likePost = async (i, length) => {
         if (response.ok) {
           const resp = await response.json();
           console.log(resp[0][0].likes_count + 1);
-          lekesP.textContent = `${resp[0][0].likes_count + 1} likes`;
+          likesP.textContent = `${resp[0][0].likes_count + 1} likes`;
         }
       } else {
         likesImg.src = "/assets/like-icon.svg";
@@ -166,37 +192,257 @@ const likePost = async (i, length) => {
         if (response.ok) {
           const resp = await response.json();
           console.log(resp[0][0].likes_count - 1);
-          lekesP.textContent = `${resp[0][0].likes_count - 1} likes`;
+          likesP.textContent = `${resp[0][0].likes_count - 1} likes`;
         }
       }
     });
   }
 };
 
-likePost(1, 5);
+const shareFunc = async (event, id, shareImg) => {
+  let url = await getArts();
+  url = url[id - 1].post_url;
+
+  event.preventDefault();
+  try {
+    await navigator.clipboard.writeText(url);
+    console.log("URL copied to clipboard:", url);
+    // Provide visual feedback (if desired)
+    shareImg.style.opacity = "0.80";
+    setTimeout(() => {
+      shareImg.style.opacity = "1";
+    }, 200);
+  } catch (error) {
+    console.error("Failed to copy URL to clipboard:", error);
+  }
+};
 
 const copyShareUrl = async (i, length) => {
   for (i; i <= length; i++) {
     const shareImg = document.getElementById(`share${i}`);
-    // console.log(shareImg);
+    const modalShareImg = document.getElementById(`modal-share${i}`);
     const id = i;
+    console.log(modalShareImg);
+    if (modalShareImg) {
+      console.log(modalShareImg);
+      modalShareImg.addEventListener("click", async (event) => {
+        shareFunc(event, id, modalShareImg);
+      });
+    }
     shareImg.addEventListener("click", async (event) => {
-      let url = await getArts();
-      url = url[id - 1].post_url;
-      console.log();
-      event.preventDefault();
-      try {
-        await navigator.clipboard.writeText(url);
-        console.log("URL copied to clipboard:", url);
-        // Provide visual feedback (if desired)
-        shareImg.style.opacity = "0.80";
-        setTimeout(() => {
-          shareImg.style.opacity = "1";
-        }, 200);
-      } catch (error) {
-        console.error("Failed to copy URL to clipboard:", error);
-      }
+      shareFunc(event, id, shareImg);
     });
   }
 };
+
+const createModal = (art) => {
+  const modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+  modalContent.classList.add("post");
+  modalContent.innerHTML = `
+  <img class="card-img" src="${art.img_url}" alt="" />
+
+  <div class="card-datails">
+    <div class="flex-col">
+      <div class="flex-col">
+        <h2>ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧</h2>
+        <p>${art.description}</p>
+      </div>
+
+      <div class="view-comments">
+        <div
+          class="view-comment flex"
+          id="view-comment${art.art_id}"
+        >
+          <img
+            style="
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 3.125rem;
+              object-fit: cover;
+            "
+            src="/assets/temp-img.png"
+            alt=""
+          />
+          <div class="flex">
+            <p class="user-name">sagarkalis</p>
+            <p class="user-comment">wooow cute</p>
+          </div>
+        </div>
+
+        <div
+          class="view-comment flex"
+          id="view-comment${art.art_id}"
+        >
+          <img
+            style="
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 3.125rem;
+              object-fit: cover;
+            "
+            src="/assets/temp-img.png"
+            alt=""
+          />
+          <div class="flex">
+            <p class="user-name">sagarkalis</p>
+            <p class="user-comment">wooow cute</p>
+          </div>
+        </div>
+
+        <div
+          class="view-comment flex"
+          id="view-comment${art.art_id}"
+        >
+          <img
+            style="
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 3.125rem;
+              object-fit: cover;
+            "
+            src="/assets/temp-img.png"
+            alt=""
+          />
+          <div class="flex">
+            <p class="user-name">sagarkalis</p>
+            <p class="user-comment">wooow cute</p>
+          </div>
+        </div>
+
+        <div
+          class="view-comment flex"
+          id="view-comment${art.art_id}"
+        >
+          <img
+            style="
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 3.125rem;
+              object-fit: cover;
+            "
+            src="/assets/temp-img.png"
+            alt=""
+          />
+          <div class="flex">
+            <p class="user-name">sagarkalis</p>
+            <p class="user-comment">wooow cute</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment-part">
+      <div class="react">
+        <div
+          class="icons"
+          style="display: flex; justify-content: space-between"
+        >
+          <div class="icons">
+            <img
+              id="modal-like${art.art_id}"
+              height="30px"
+              src="/assets/like-icon.svg"
+              alt=""
+              style="
+                filter: brightness(0) saturate(100%) invert(100%)
+                  sepia(12%) saturate(7500%) hue-rotate(181deg)
+                  brightness(112%) contrast(110%);
+              "
+            />
+            <img
+              class="comment"
+              height="30px"
+              src="/assets/comment-icon.svg"
+              alt=""
+              style="
+                filter: brightness(0) saturate(100%) invert(100%)
+                  sepia(12%) saturate(7500%) hue-rotate(181deg)
+                  brightness(112%) contrast(110%);
+              "
+            />
+            <img
+              id="modal-share${art.art_id}"
+              class="share"
+              height="30px"
+              src="/assets/share-icon.svg"
+              alt=""
+              style="
+                filter: brightness(0) saturate(100%) invert(100%)
+                  sepia(12%) saturate(7500%) hue-rotate(181deg)
+                  brightness(112%) contrast(110%);
+              "
+            />
+          </div>
+          <a href="${art.post_url}" target="_blank"
+            ><img
+              src="/assets/instagram.svg"
+              alt=""
+              height="35px"
+              style="
+                filter: brightness(0) saturate(100%) invert(100%)
+                  sepia(12%) saturate(7500%) hue-rotate(181deg)
+                  brightness(112%) contrast(110%);
+              "
+          /></a>
+        </div>
+
+        <div>
+          <p id="modal-like-p${art.art_id}" class="post-likes">
+            ${art.likes_count} likes
+          </p>
+          <hr />
+          <div style="display: flex; justify-content: space-between">
+            <input
+              placeholder="Add a comment..."
+              type="comment"
+              class="comment"
+              id="comment"
+              name="comment"
+            />
+            <div class="Send">
+              <button>Send</button>s
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  `;
+  return modalContent;
+};
+
+const modalContainer = document.getElementById("modal");
+
+const showModal = async (i, length) => {
+  const respData = await getArts();
+
+  for (i; i <= length; i++) {
+    const btnMore = document.getElementById(`btn-more${i}`);
+    const id = i;
+    btnMore.addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      const art = respData[id - 1];
+      const modalContent = createModal(art);
+      modalContainer.innerHTML = "";
+      modalContainer.classList.add("modal");
+      modalContainer.appendChild(modalContent);
+      copyShareUrl(1, 5);
+      likePost(1, 5);
+    });
+  }
+};
+
+prevBtn.addEventListener("click", () => showNextAns(true));
+nextBtn.addEventListener("click", () => showNextAns(false));
+window.onclick = (event) => {
+  if (event.target === modalContainer) {
+    modalContainer.innerHTML = "";
+    modalContainer.classList.remove("modal");
+  }
+};
+
 copyShareUrl(1, 5);
+likePost(1, 5);
+showModal(1, 5);
