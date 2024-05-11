@@ -15,7 +15,7 @@ const getInstPostsIds = async () => {
         }
       });
   } catch (error) {
-    alert("Communication error with server!");
+    // alert("Communication error with server!");
   }
   return ids;
 };
