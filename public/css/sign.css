@@ -16,7 +16,7 @@ footer {
   flex-direction: column;
   gap: 0.5rem;
 }
-form {
+.form {
   margin-top: 3.12rem;
   gap: 1.5rem !important;
   border-radius: 1.75rem;
@@ -53,7 +53,7 @@ input {
   font-size: 1rem;
   font-weight: 400;
 }
-button {
+.button {
   color: #fff;
   font-family: Aspekta;
   font-size: 1.3rem;

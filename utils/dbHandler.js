@@ -13,9 +13,46 @@ const init = async () => {
               post_url TEXT NOT NULL,
               primary key(art_id)
           );`);
+  await db.query(`
+      CREATE TABLE IF NOT EXISTS users(
+      user_id INT NOT NULL AUTO_INCREMENT,
+      name varchar(255) NOT NULL,
+      surname varchar(255) NOT NULL,
+      email varchar(255) NOT NULL,
+      password varchar(255) NOT NULL,
+      salt varchar(255) NOT NULL,
+      PRIMARY KEY (user_id)
+  );`);
   for (id of instPostIds) {
     insertArt(id);
   }
+};
+
+const createUser = async (name, surname, email, password, salt) => {
+  await db.query(
+    `
+    INSERT INTO users (name, surname, email, password, salt) VALUES (?, ?, ?, ?, ?)
+  `,
+    [name, surname, email, password, salt]
+  );
+};
+
+const getUserBy = async (col, value) => {
+  const [records] = await db.query(
+    `
+  SELECT * FROM users WHERE ${col} = ?
+  `,
+    value
+  );
+  return records;
+};
+const getAllUsers = async () => {
+  const [records] = await db.query(
+    `
+  SELECT * FROM users 
+  `
+  );
+  return records;
 };
 
 const insertArt = async (id) => {
@@ -98,4 +135,7 @@ module.exports = {
   likeById,
   dislikeById,
   getLikesCountById,
+  createUser,
+  getUserBy,
+  getAllUsers,
 };

@@ -67,7 +67,7 @@ const createArtsData = (answers, page) => {
             />
           </div>
           <div class="more">
-            <button id="btn-more${id}">More</button>
+            <button id="btn-more${answers[i].art_id}">More</button>
             <a href="${answers[i].post_url}" target='_blank'
               ><img
                 src="/assets/instagram.svg"
@@ -101,6 +101,7 @@ const getArts = async () => {
 
 const showNextAns = async (backwards) => {
   try {
+    console.log();
     const respData = await getArts();
     page += backwards ? -1 : 1;
     const maxPage = parseInt(Math.ceil(respData.length / 5));
@@ -114,6 +115,7 @@ const showNextAns = async (backwards) => {
     artsContainer.appendChild(artsLis);
     likePost(5 * page - 4, 5 * page);
     copyShareUrl(5 * page - 4, 5 * page);
+    showModal(5 * page - 4, 5 * page);
   } catch (error) {
     console.log(error.message);
     // alert("Communication error with server!");

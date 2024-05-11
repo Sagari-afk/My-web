@@ -7,29 +7,53 @@
   <body>
     <%- include("includes/header.ejs") %>
     <section class="centered-container">
+      <% if (inputData.errorMessage) { %>
+      <p><%= inputData.errorMessage %></p>
+      <% } %>
+
       <h1>SIGN IN</h1>
-      <form class="flex-column">
+      <form class="flex-column form" action="/signIn" method="POST">
         <div class="flex max-width">
           <div class="flex-column max-width">
             <label for="name">Your name</label>
-            <input placeholder="Jon" id="name" type="text" />
+            <input
+              placeholder="Jon"
+              id="name"
+              type="text"
+              name="name"
+              required
+              value="<%= inputData.name %>"
+            />
           </div>
           <div class="flex-column max-width">
             <label for="surname">Your surname</label>
-            <input placeholder="Doe" type="text" />
+            <input
+              value="<%= inputData.surname %>"
+              placeholder="Doe"
+              type="text"
+              name="surname"
+              required
+            />
           </div>
         </div>
         <div class="flex max-width">
           <div class="flex-column max-width">
             <label for="email">Your email</label>
-            <input id="email" type="email" placeholder="jondoe@gmail.com" />
+            <input
+              value="<%= inputData.email %>"
+              id="email"
+              type="email"
+              placeholder="jondoe@gmail.com"
+              name="email"
+              required
+            />
           </div>
           <div class="flex-column max-width">
             <label for="password">Create password</label>
-            <input id="password" type="password" />
+            <input id="password" type="password" name="password" required />
           </div>
         </div>
-        <button type="submit">Create user</button>
+        <button class="button" type="submit">Create user</button>
       </form>
     </section>
     <%- include("includes/footer.ejs") %>

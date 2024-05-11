@@ -4,6 +4,9 @@ const dbHandler = require("../utils/dbHandler");
 
 router.get("/arts", async (req, res) => {
   try {
+    if (!req.session.user) {
+      return res.status(401).render("401");
+    }
     // await dbHandler.init(); // Uz bolo spustene
     await dbHandler.updateArts();
     const allArts = await dbHandler.getAllArts();
