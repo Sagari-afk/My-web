@@ -6,10 +6,10 @@
   </head>
   <body>
     <%- include("includes/header.ejs") %>
-    <section class="centered-container">
-      <% if (inputData.errorMessage) { %>
+    <section class="centered-container toFill">
+      <!-- <% if (inputData.errorMessage) { %>
       <p><%= inputData.errorMessage %></p>
-      <% } %>
+      <% } %> -->
 
       <h1>SIGN IN</h1>
       <form class="flex-column form" action="/signIn" method="POST">

@@ -1,53 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <%- include("includes/head.ejs") %>
     <link rel="stylesheet" href="/css/arts.css" />
+    <%- include("includes/head.ejs") %>
     <script src="js/arts.js" defer></script>
   </head>
-  <body>
+  <body data-user-id="<%= locals.user.id %>">
     <%- include("includes/header.ejs") %>
     <section class="centered-container head">
-      <div class="text-centered">
-        <h1>GALLERY</h1>
-        <p>Artful Expression in the Digital Realm</p>
-      </div>
-      <div class="cards">
-        <img class="card active" src="<%= allArts[0].img_url %>" alt="" />
-        <img class="card" src="<%= allArts[1].img_url %>" alt="" />
-        <img class="card" src="<%= allArts[2].img_url %>" alt="" />
-        <img class="card" src="<%= allArts[3].img_url %>" alt="" />
+      <div class="container">
+
+        <div class="centered-content">
+          <div class="text-centered">
+            <h1>GALLERY</h1>
+            <p>Artful Expression in the Digital Realm</p>
+          </div>
+          <div class="cards">
+            <img class="card active" src="<%= allArts[0].img_url %>" alt="" />
+            <img class="card" src="<%= allArts[1].img_url %>" alt="" />
+            <img class="card" src="<%= allArts[2].img_url %>" alt="" />
+            <img class="card" src="<%= allArts[3].img_url %>" alt="" />
+          </div>
+        </div>
+        
       </div>
     </section>
 
     <div id="modal" class=""></div>
 
     <section class="centered-container">
-      <form class="search">
-        <img src="/assets/search.png" alt="" />
-        <input
-          placeholder="Search by key word"
-          type="text"
-          class="search-by-title"
-          id="search"
-          name="search"
-        />
-      </form>
+      <div class="container">
 
-      <div class="arts-container" id="arts-container">
-        <ul>
-          <% if (arts.length === 0) { %>
-          <p>NO ARTS</p>
-          <% } else { %> <% for (let i = 0; i < 5; i++) { %> <% if (arts[i]) {
-          %> <%- include("includes/artItem.ejs", { artUrl: arts[i].img_url,
-          description: arts[i].description, artLikes: arts[i].likes_count, url:
-          arts[i].post_url, id:arts[i].art_id }) %> <% } %> <% } %> <% } %>
-        </ul>
-      </div>
-      <div class="flex margin">
-        <button id="prev-btn"><</button>
-        <p id="pageNum">1 / <%= parseInt(Math.ceil(arts.length / 5)); %></p>
-        <button id="next-btn">></button>
+        <div class="arts-content">
+          <div class="search-wrapper">
+            <form class="search">
+              <img src="/assets/search.png" alt="" />
+              <input
+                placeholder="Search by key word"
+                type="text"
+                class="search-by-title"
+                id="search"
+                name="search"
+              />
+            </form>
+          </div>
+
+          <div class="arts-container" id="arts-container">
+            <ul>
+              <% if (arts.length === 0) { %>
+              <p>NO ARTS</p>
+              <% } else { %> <% for (let i = 0; i < 5; i++) { %> <% if (arts[i]) {
+              %> <%- include("includes/artItem.ejs", { artUrl: arts[i].img_url,
+              description: arts[i].description, artLikes: arts[i].likes_count, url:
+              arts[i].post_url, id:arts[i].art_id }) %> <% } %> <% } %> <% } %>
+            </ul>
+          </div>
+
+          <div class="flex margin">
+            <button id="prev-btn"><</button>
+            <p id="pageNum">1 / <%= parseInt(Math.ceil(arts.length / 5)); %></p>
+            <button id="next-btn">></button>
+          </div>
+        </div>
+
       </div>
     </section>
 

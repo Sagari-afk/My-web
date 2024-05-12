@@ -4,8 +4,8 @@ html {
   background-repeat: no-repeat;
 }
 footer {
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  margin-top: 10rem;
   width: 100%;
 }
 .centered-container {

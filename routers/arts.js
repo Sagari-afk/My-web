@@ -52,13 +52,32 @@ router.get("/getArts/search=:search", async (req, res) => {
   }
 });
 
+router.get("/isLiked/:art_id/:user_id", async (req, res) => {
+  try {
+    const art_id = req.params.art_id;
+    const user_id = req.params.user_id;
+    const isLiked = await dbHandler.isLiked(art_id, user_id);
+    console.log("isLiked", isLiked);
+    return res.json({ isLiked });
+  } catch (error) {
+    console.log(error);
+    res.status(500).render("500");
+  }
+});
+
 router.post("/arts", async (req, res) => {
   try {
     let { id, like } = req.body;
     console.log(id, like);
-    if (like) dbHandler.likeById(id);
-    else dbHandler.dislikeById(id);
+    if (like) {
+      dbHandler.likeById(id);
+      dbHandler.setLike(id, res.locals.user.id);
+    } else {
+      dbHandler.dislikeById(id);
+      dbHandler.setDislike(id, res.locals.user.id);
+    }
     const likeCount = await dbHandler.getLikesCountById(id);
+
     return res.status(201).json(likeCount);
   } catch (error) {
     console.log(error);

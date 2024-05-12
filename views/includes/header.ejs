@@ -1,19 +1,41 @@
 <header>
   <div class="container">
-    <a href="/" class="logo-font">Sagarkalis</a>
-    <div>
-      <% if (locals.isAuth) { %>
-      <a href="/arts" class="small-text">Arts</a>
-      <form action="/logOut" method="POST">
-        <button class="small-text" id="log-out">Log out</button>
-      </form>
-      <a href="/profile" class="small-text" id="profile">Profile</a>
-      <% } else { %>
+    <div class="header-wrapper">
+      <a href="/" class="logo-font">Sagarkalis</a>
+      <div class="links-cont">
+        <% if (locals.isAuth) { %>
+        <a href="/arts" class="small-text">Arts</a>
+        <form action="/logOut" method="POST">
+          <button class="small-text" id="log-out">Log out</button>
+        </form>
+        <a href="/profile" class="small-text" id="profile">Profile</a>
+        <% } else { %>
 
-      <!-- <a href="/projects" class="small-text">Projects</a> -->
-      <a href="/logIn" class="small-text" id="login">Log in</a>
-      <a href="/signIn" class="small-text" id="signin">Sign in</a>
-      <% } %>
+        <!-- <a href="/projects" class="small-text">Projects</a> -->
+        <a href="/logIn" class="small-text" id="login">Log in</a>
+        <a href="/signIn" class="small-text" id="signin">Sign in</a>
+        <% } %>
+      </div>
+
+      <div class="hamb-menu-icon-cont">
+        <img id="hamb-icon" src="/assets/hamb-menu.svg" alt="menu" onclick="openCloseSidebar()">
+      </div>
+
+      <div class="sidebar-menu" id="sidebar-menu">
+        <div class="sidebar-content">
+          <% if (locals.isAuth) { %>
+            <a href="/arts" class="small-text">Arts</a>
+            <form action="/logOut" method="POST">
+              <button class="small-text" id="log-out">Log out</button>
+            </form>
+            <a href="/profile" class="small-text" id="profile">Profile</a>
+            <% } else { %>
+            <!-- <a href="/projects" class="small-text">Projects</a> -->
+            <a href="/logIn" class="small-text" id="login">Log in</a>
+            <a href="/signIn" class="small-text" id="signin">Sign in</a>
+            <% } %>
+        </div>
+      </div>
     </div>
   </div>
 </header>

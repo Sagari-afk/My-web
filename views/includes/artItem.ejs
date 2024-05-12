@@ -1,58 +1,62 @@
-<li>
-  <img class="card-img" src="<%= artUrl %>" alt="" />
+<li class="art-item">
+  <div class="card-img-cont">
+    <img class="card-img" src="<%= artUrl %>" alt="" />
+  </div>
 
-  <div class="card-datails">
-    <h2>ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧</h2>
-    <p><%= description %></p>
-
-    <div class="comment-part">
-      <div class="react">
-        <div class="icons">
-          <img
-            id="like<%= id %>"
-            height="35px"
-            src="/assets/like-icon.svg"
-            alt=""
-          />
-          <img
+  <div class="card-datails-cont">
+    <div class="card-datails">
+      <h2>ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧</h2>
+      <p><%= description %></p>
+  
+      <div class="comment-part">
+        <div class="react">
+          <div class="icons">
+            <img
+              id="like<%= id %>"
+              height="35px"
+              src="/assets/like-icon.svg"
+              alt=""
+            />
+            <img
+              class="comment"
+              height="35px"
+              src="/assets/comment-icon.svg"
+              alt=""
+            />
+            <img
+              id="share<%= id %>"
+              class="share"
+              height="35px"
+              src="/assets/share-icon.svg"
+              alt=""
+            />
+          </div>
+          <p id="like-p<%= id %>" class="post-likes"><%= artLikes %> likes</p>
+  
+          <input
+            placeholder="Add a comment..."
+            type="comment"
             class="comment"
-            height="35px"
-            src="/assets/comment-icon.svg"
-            alt=""
-          />
-          <img
-            id="share<%= id %>"
-            class="share"
-            height="35px"
-            src="/assets/share-icon.svg"
-            alt=""
+            id="comment"
+            name="comment"
           />
         </div>
-        <p id="like-p<%= id %>" class="post-likes"><%= artLikes %> likes</p>
-
-        <input
-          placeholder="Add a comment..."
-          type="comment"
-          class="comment"
-          id="comment"
-          name="comment"
-        />
-      </div>
-      <div class="more">
-        <button id="btn-more<%= id %>">More</button>
-        <a href="<%= url %>" target="_blank"
-          ><img
-            src="/assets/instagram.svg"
-            alt=""
-            brightness(0)
-            saturate(100%)
-            invert(39%)
-            sepia(66%)
-            saturate(564%)
-            hue-rotate(219deg)
-            brightness(85%)
-            contrast(96%)
-        /></a>
+        <div class="more">
+          <button id="btn-more<%= id %>">More</button>
+          <a href="<%= url %>" target="_blank"
+            ><img
+              src="/assets/instagram.svg"
+              alt=""
+              brightness(0)
+              saturate(100%)
+              invert(39%)
+              sepia(66%)
+              saturate(564%)
+              hue-rotate(219deg)
+              brightness(85%)
+              contrast(96%)
+          /></a>
+        </div>
       </div>
     </div>
   </div>

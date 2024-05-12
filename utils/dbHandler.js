@@ -31,9 +31,9 @@ const init = async () => {
 const createUser = async (name, surname, email, password, salt) => {
   await db.query(
     `
-    INSERT INTO users (name, surname, email, password, salt) VALUES (?, ?, ?, ?, ?)
+    INSERT INTO users (name, surname, email, password, salt, user_img_url) VALUES (?, ?, ?, ?, ?, ?)
   `,
-    [name, surname, email, password, salt]
+    [name, surname, email, password, salt, "/assets/profile-none-img.png"]
   );
 };
 
@@ -53,6 +53,15 @@ const getAllUsers = async () => {
   `
   );
   return records;
+};
+
+const updateUser = async (user) => {
+  const { id, name, surname, email, avatar } = user;
+  await db.query(
+    `
+  UPDATE users SET name=?, surname=?, email=?, user_img_url=? WHERE user_id = ?`,
+    [name, surname, email, avatar, id]
+  );
 };
 
 const insertArt = async (id) => {
@@ -81,6 +90,36 @@ const likeById = async (id) => {
   UPDATE arts SET likes_count = (?) WHERE art_id = (?)`,
     [likes, id]
   );
+};
+
+const setLike = async (art_id, user_id) => {
+  await db.query(
+    `
+    INSERT INTO likes (user_id, art_id) VALUES (?, ?)
+  `,
+    [user_id, art_id]
+  );
+};
+
+const setDislike = async (art_id, user_id) => {
+  await db.query(
+    `
+    DELETE FROM likes WHERE user_id=? and art_id=?
+  `,
+    [user_id, art_id]
+  );
+};
+
+const isLiked = async (art_id, user_id) => {
+  const [like] = await db.query(
+    `
+    SELECT * FROM likes WHERE art_id=? and user_id=?
+  `,
+    [art_id, user_id]
+  );
+  console.log(like);
+  if (like.length > 0) return true;
+  return false;
 };
 
 const dislikeById = async (id) => {
@@ -138,4 +177,9 @@ module.exports = {
   createUser,
   getUserBy,
   getAllUsers,
+  updateUser,
+
+  setDislike,
+  setLike,
+  isLiked,
 };

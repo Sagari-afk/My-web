@@ -28,24 +28,24 @@ header {
   height: 72px;
   width: auto;
   top: 43%;
-  left: 27%;
+  left: 30%;
   position: absolute;
 }
 #left-eye {
   height: 72px;
   width: auto;
   top: 43%;
-  left: 60%;
+  left: 60.5%;
   position: absolute;
 }
 
-section {
+/* section {
   margin-right: 6rem;
   margin-left: 6rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
+} */
 
 .arts-side,
 .code-side {
@@ -129,4 +129,14 @@ section {
 .rotate {
   animation-name: rotateEyes;
   animation-duration: 4s;
+}
+
+@media (max-width: 762px) {
+  html {
+    background: white !important;
+  }
+
+  body {
+    overflow: hidden !important;
+  }
 }

@@ -31,7 +31,7 @@ searchInput.addEventListener("input", function () {
 });
 
 // // Pages:
-const createArtsData = (answers, page) => {
+const createArtsData = async (answers, page) => {
   const ul = document.createElement("ul");
   if (answers.length === 0) {
     const ansItem = document.createElement("p");
@@ -42,6 +42,7 @@ const createArtsData = (answers, page) => {
       if (answers[i] == undefined) {
         return ul;
       }
+
       const li = document.createElement("li");
       li.innerHTML = `
       <img class="card-img" src="${answers[i].img_url}" alt="" />
@@ -113,6 +114,7 @@ const showNextAns = async (backwards) => {
     const artsLis = createArtsData(respData, page);
     artsContainer.innerHTML = "";
     artsContainer.appendChild(artsLis);
+
     likePost(5 * page - 4, 5 * page);
     copyShareUrl(5 * page - 4, 5 * page);
     showModal(5 * page - 4, 5 * page);
@@ -140,64 +142,80 @@ const setArgsForReq = (id, like) => {
   return [postData, options];
 };
 
+const likeFunc = async (
+  event,
+  likesP,
+  modalLikesP,
+  modalLikesImg,
+  likesImg,
+  id
+) => {
+  event.preventDefault();
+  let clickCount = likesImg.dataset.clickCount++;
+
+  console.log("clickCo unt", clickCount);
+  if (clickCount % 2 === 0) {
+    console.log("like");
+    if (modalLikesImg) modalLikesImg.src = "/assets/like_pressed_icon.svg";
+    likesImg.src = "/assets/like_pressed_icon.svg";
+    const [postData, options] = setArgsForReq(id, true);
+    const response = await fetch(`/arts`, options);
+    if (response.ok) {
+      const resp = await response.json();
+      console.log(resp[0][0].likes_count + 1);
+      likesP.textContent = `${resp[0][0].likes_count + 1} likes`;
+      if (modalLikesP)
+        modalLikesP.textContent = `${resp[0][0].likes_count + 1} likes`;
+    }
+  } else {
+    console.log("unlike");
+    if (modalLikesImg) modalLikesImg.src = "/assets/like-icon.svg";
+    likesImg.src = "/assets/like-icon.svg";
+    const [postData, options] = setArgsForReq(id, false);
+    const response = await fetch(`/arts`, options);
+    if (response.ok) {
+      const resp = await response.json();
+      console.log(resp[0][0].likes_count - 1);
+      if (modalLikesP)
+        modalLikesP.textContent = `${resp[0][0].likes_count - 1} likes`;
+      likesP.textContent = `${resp[0][0].likes_count - 1} likes`;
+    }
+  }
+};
+
 const likePost = async (i, length) => {
   for (i; i <= length; i++) {
     const likesImg = document.getElementById(`like${i}`);
     const likesP = document.getElementById(`like-p${i}`);
 
+    const response = await fetch(`/isLiked/${i}/${user_id}`);
+    const res = await response.json();
+
     const modalLikesImg = document.getElementById(`modal-like${i}`);
     const modalLikesP = document.getElementById(`modal-like-p${i}`);
-    let clickCount = 1;
+    let clickCount = res.isLiked ? 1 : 0;
     const id = i;
+
+    likesImg.dataset.clickCount = clickCount;
+    likesImg.dataset.openedModal = likesImg.dataset.openedModal ? 1 : 0;
+
+    const likeImg = document.getElementById(`like${id}`);
+    if (likeImg && res.isLiked) likeImg.src = "/assets/like_pressed_icon.svg";
+
     console.log(modalLikesImg, modalLikesP);
     if (modalLikesImg && modalLikesP) {
       modalLikesImg.addEventListener("click", async (event) => {
-        event.preventDefault();
-        clickCount++;
-        if (clickCount % 2 === 0) {
-          modalLikesImg.src = "/assets/like_pressed_icon.svg";
-          const [postData, options] = setArgsForReq(id, true);
-          const response = await fetch(`/arts`, options);
-          if (response.ok) {
-            const resp = await response.json();
-            console.log(resp[0][0].likes_count + 1);
-            modalLikesP.textContent = `${resp[0][0].likes_count + 1} likes`;
-          }
-        } else {
-          modalLikesImg.src = "/assets/like-icon.svg";
-          const [postData, options] = setArgsForReq(id, false);
-          const response = await fetch(`/arts`, options);
-          if (response.ok) {
-            const resp = await response.json();
-            console.log(resp[0][0].likes_count - 1);
-            modalLikesP.textContent = `${resp[0][0].likes_count - 1} likes`;
-          }
-        }
+        likesImg.dataset.openedModal = 1;
+        likeFunc(event, likesP, modalLikesP, modalLikesImg, likesImg, id);
       });
     }
-    likesImg.addEventListener("click", async (event) => {
-      event.preventDefault();
-      clickCount++;
-      if (clickCount % 2 === 0) {
-        likesImg.src = "/assets/like_pressed_icon.svg";
-        const [postData, options] = setArgsForReq(id, true);
-        const response = await fetch(`/arts`, options);
-        if (response.ok) {
-          const resp = await response.json();
-          console.log(resp[0][0].likes_count + 1);
-          likesP.textContent = `${resp[0][0].likes_count + 1} likes`;
-        }
-      } else {
-        likesImg.src = "/assets/like-icon.svg";
-        const [postData, options] = setArgsForReq(id, false);
-        const response = await fetch(`/arts`, options);
-        if (response.ok) {
-          const resp = await response.json();
-          console.log(resp[0][0].likes_count - 1);
-          likesP.textContent = `${resp[0][0].likes_count - 1} likes`;
-        }
-      }
-    });
+    if (+likesImg.dataset.openedModal == 0) {
+      likesImg.addEventListener("click", async (event) => {
+        console.log("pridam", +likesImg.dataset.openedModal);
+        likesImg.dataset.openedModal = 1;
+        likeFunc(event, likesP, modalLikesP, modalLikesImg, likesImg, id);
+      });
+    }
   }
 };
 
@@ -417,19 +435,32 @@ const createModal = (art) => {
 const modalContainer = document.getElementById("modal");
 
 const showModal = async (i, length) => {
-  const respData = await getArts();
-
   for (i; i <= length; i++) {
     const btnMore = document.getElementById(`btn-more${i}`);
+
     const id = i;
     btnMore.addEventListener("click", async (event) => {
+      const respData = await getArts();
       event.preventDefault();
 
       const art = respData[id - 1];
       const modalContent = createModal(art);
+      console.log("Likes count: ", art.likes_count);
       modalContainer.innerHTML = "";
+
       modalContainer.classList.add("modal");
       modalContainer.appendChild(modalContent);
+
+      const response = await fetch(`/isLiked/${id}/${user_id}`);
+      const res = await response.json();
+      console.log("mrow", res, res.isLiked);
+
+      const modalLikesImg = document.getElementById(`modal-like${id}`);
+      const modalLikesP = document.getElementById(`modal-like-p${id}`);
+
+      if (modalLikesImg && res.isLiked)
+        modalLikesImg.src = "/assets/like_pressed_icon.svg";
+
       copyShareUrl(1, 5);
       likePost(1, 5);
     });
@@ -444,6 +475,9 @@ window.onclick = (event) => {
     modalContainer.classList.remove("modal");
   }
 };
+
+const user_id = document.body.dataset.userId;
+console.log(user_id);
 
 copyShareUrl(1, 5);
 likePost(1, 5);

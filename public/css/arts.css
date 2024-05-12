@@ -1,7 +1,7 @@
 html {
-  background: url("/assets/bg_clouds_.png");
-  background-size: contain;
-  background-repeat: no-repeat;
+  background: url("/assets/bg_clouds_.png") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
 }
 .head h1,
 .head p {

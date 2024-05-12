@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("includes/head.ejs") %>
+    <link rel="stylesheet" href="/css/sign.css" />
+  </head>
+  <body>
+    <%- include("includes/header.ejs")  %>
+    <section class="centered-container toFill">
+      <div class="container">
+
+        <div class="profile-content">
+
+          <div class="flex" style="align-items: center; gap: 24px !important">
+            <h1>PROFILE</h1>
+            <img
+              class="profile-img"
+              id="profile-img"
+              src="<%= user.avatar %>"
+              alt=""
+            />
+          </div>
+          <form
+            class="flex-column form"
+            action="/profile"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div class="flex max-width formRow">
+              <div class="flex-column max-width formInGroup">
+                <label for="name">Your name</label>
+                <input
+                  placeholder="Jon"
+                  id="name"
+                  type="text"
+                  name="name"
+                  required
+                  value="<%= user.name %>"
+                />
+              </div>
+              <div class="flex-column max-width formInGroup">
+                <label for="surname">Your surname</label>
+                <input
+                  value="<%= user.surname %>"
+                  placeholder="Doe"
+                  type="text"
+                  name="surname"
+                  required
+                />
+              </div>
+            </div>
+            <div class="flex max-width formRow">
+              <div class="flex-column max-width formInGroup">
+                <label for="email">Your email</label>
+                <input
+                  value="<%= user.email %>"
+                  id="email"
+                  type="email"
+                  placeholder="jondoe@gmail.com"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="flex-column max-width formInGroup">
+                <label for="password">Your password</label>
+                <input id="password" type="password" name="password" required />
+              </div>
+            </div>
+    
+            <input
+              type="file"
+              id="avatar"
+              name="avatar"
+              accept="image/*"
+              name="avatar"
+            />
+            <button class="button" type="submit">Change</button>
+          </form>
+
+        </div>
+
+      </div>
+    </section>
+    <%- include("includes/footer.ejs") %>
+  </body>
+</html>

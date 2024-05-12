@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const dbHandler = require("../utils/dbHandler");
 const crypto = require("crypto");
+const { fileFilter, storage } = require("../utils/fileUpload");
+let upload = multer({ storage, fileFilter, limits: { fileSize: "10MB" } });
 
 router.get("/signIn", async (req, res) => {
   try {
@@ -11,6 +14,7 @@ router.get("/signIn", async (req, res) => {
         name: "",
         surname: "",
         email: "",
+        avatar: "",
       };
     }
 
@@ -63,6 +67,7 @@ router.post("/signIn", async (req, res) => {
         name: name,
         surname: surname,
         email: email,
+        avatar: "/assets/profile-none-img.png",
       };
     }
   } catch (error) {
@@ -98,6 +103,7 @@ router.post("/logIn", async (req, res) => {
         name: existingUser[0].name,
         surname: existingUser[0].surname,
         email: existingUser[0].email,
+        avatar: existingUser[0].user_img_url,
       };
       req.session.save(() => {
         res.redirect("/arts");
@@ -116,6 +122,58 @@ router.post("/logOut", async (req, res) => {
   req.session.save(() => {
     res.redirect("/");
   });
+});
+
+router.get("/profile", async (req, res) => {
+  try {
+    res.render("profile", { user: res.locals.user });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).render("500");
+  }
+});
+
+router.post("/profile", upload.single("avatar"), async (req, res) => {
+  const { name, surname, email, password } = req.body;
+  console.log(name, surname, email, password);
+
+  try {
+    const existingUser = await dbHandler.getUserBy("email", email);
+
+    let imageLocation = "";
+    if (req.file.path) {
+      imageLocation = req.file.path.substring(req.file.path.indexOf("\\") + 1);
+    } else {
+      imageLocation = existingUser[0].user_img_url;
+    }
+
+    const hachedPassword = crypto
+      .pbkdf2Sync(password, existingUser[0].salt, 1000, 64, "sha512")
+      .toString("hex");
+    console.log(existingUser[0].password);
+    console.log(hachedPassword);
+    if (existingUser[0].password !== hachedPassword) {
+      console.log("nespravne heslo");
+      res.redirect("/profile");
+      return;
+    }
+    req.session.user = {
+      id: existingUser[0].user_id,
+      name: name,
+      surname: surname,
+      email: email,
+      avatar: imageLocation,
+    };
+    console.log(req.session.user);
+    await dbHandler.updateUser(req.session.user);
+    req.session.save(() => {
+      res.redirect("/profile");
+    });
+    return;
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).render("500");
+  }
 });
 
 module.exports = router;
