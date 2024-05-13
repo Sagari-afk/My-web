@@ -15,7 +15,6 @@ router.get("/arts", async (req, res) => {
     if (req.query.search) {
       // Filter posts by key word containing the search keyword
       arts = await dbHandler.getArtsByKeyWord(req.query.search);
-      console.log("mnau2");
     } else {
       // Get all posts if no search keyword is provided
       arts = allArts;
@@ -57,7 +56,6 @@ router.get("/isLiked/:art_id/:user_id", async (req, res) => {
     const art_id = req.params.art_id;
     const user_id = req.params.user_id;
     const isLiked = await dbHandler.isLiked(art_id, user_id);
-    console.log("isLiked", isLiked);
     return res.json({ isLiked });
   } catch (error) {
     console.log(error);
@@ -68,7 +66,6 @@ router.get("/isLiked/:art_id/:user_id", async (req, res) => {
 router.post("/arts", async (req, res) => {
   try {
     let { id, like } = req.body;
-    console.log(id, like);
     if (like) {
       dbHandler.likeById(id);
       dbHandler.setLike(id, res.locals.user.id);
@@ -84,4 +81,49 @@ router.post("/arts", async (req, res) => {
     res.status(500).render("500");
   }
 });
+
+router.get("/arts/comments/:art_id", async (req, res) => {
+  try {
+    let art_id = req.params.art_id;
+    const comments = await dbHandler.getComments(art_id);
+    return res.status(201).json(comments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).render("500");
+  }
+});
+
+router.get("/getUserById/:user_id", async (req, res) => {
+  try {
+    let user_id = req.params.user_id;
+    const user = await dbHandler.getUserBy("user_id", user_id);
+    return res.status(201).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).render("500");
+  }
+});
+
+router.post("/arts/sendComment", async (req, res) => {
+  try {
+    let { art_id, user_id, comment_text } = req.body;
+    await dbHandler.addComment(art_id, user_id, comment_text);
+    return res.status(201).json({});
+  } catch (error) {
+    console.log(error);
+    res.status(500).render("500");
+  }
+});
+
+router.post("/deleteComment", async (req, res) => {
+  try {
+    const { comment_id } = req.body;
+    await dbHandler.deleteComment(comment_id);
+    return res.status(201).json({});
+  } catch (error) {
+    console.log(error);
+    res.status(500).render("500");
+  }
+});
+
 module.exports = router;

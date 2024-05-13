@@ -66,7 +66,6 @@ const updateUser = async (user) => {
 
 const insertArt = async (id) => {
   const temp = await instHandler.getInstPostById(id);
-  console.log("temp:", temp);
   await db.query(
     `
           INSERT INTO arts (img_url, title, description, post_id, post_url) VALUES
@@ -84,7 +83,6 @@ const likeById = async (id) => {
   likes = likes[0][0].likes_count;
 
   likes++;
-  console.log("likes from dbHandler: ", likes);
   await db.query(
     `
   UPDATE arts SET likes_count = (?) WHERE art_id = (?)`,
@@ -117,7 +115,6 @@ const isLiked = async (art_id, user_id) => {
   `,
     [art_id, user_id]
   );
-  console.log(like);
   if (like.length > 0) return true;
   return false;
 };
@@ -127,7 +124,6 @@ const dislikeById = async (id) => {
   likes = likes[0][0].likes_count;
   if (likes < 1) return;
   likes--;
-  console.log("dislikes from dbHandler: ", likes);
   await db.query(
     `
   UPDATE arts SET likes_count = (?) WHERE art_id = (?)`,
@@ -145,8 +141,6 @@ const updateArts = async () => {
 
   for (id of instPostIds) {
     if (!existingPostIds.includes(id)) {
-      console.log();
-      console.log("new post");
       insertArt(id);
     }
   }
@@ -166,6 +160,64 @@ const getAllArts = async () => {
   return records;
 };
 
+const getComments = async (art_id) => {
+  const comments = await db.query(
+    `
+  SELECT * FROM comments WHERE art_id=?
+  `,
+    [art_id]
+  );
+  return comments;
+};
+
+const addComment = async (art_id, user_id, comment_text) => {
+  await db.query(
+    `
+    INSERT INTO comments (art_id, user_id, comment_text) VALUES (?, ?, ?)
+  `,
+    [art_id, user_id, comment_text]
+  );
+};
+
+const setUserAdmin = async (id, isAdmin) => {
+  await db.query(
+    `
+    UPDATE users SET isAdmin=? WHERE user_id=?
+  `,
+    [isAdmin, id]
+  );
+};
+
+const deleteUser = async (id) => {
+  await db.query(
+    `
+    DELETE FROM likes WHERE user_id=?
+  `,
+    id
+  );
+  await db.query(
+    `
+  DELETE FROM comments WHERE user_id=?
+`,
+    id
+  );
+  await db.query(
+    `
+    DELETE FROM users WHERE user_id=?
+  `,
+    id
+  );
+};
+
+const deleteComment = async (comment_id) => {
+  await db.query(
+    `
+    DELETE FROM comments WHERE comment_id=?
+  `,
+    comment_id
+  );
+};
+
 module.exports = {
   init,
   getAllArts,
@@ -182,4 +234,11 @@ module.exports = {
   setDislike,
   setLike,
   isLiked,
+
+  getComments,
+  addComment,
+  deleteComment,
+
+  setUserAdmin,
+  deleteUser,
 };

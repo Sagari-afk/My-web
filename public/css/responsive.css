@@ -10,6 +10,11 @@
     #left-eye {
         height: 50px !important;
     }
+
+    
+    .arts-container .art-item {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 800px) {
@@ -25,17 +30,25 @@
         height: 32px !important;
     }
 
-    .arts-container .art-item {
-        flex-direction: column;
-    }
     #fish-img {
         bottom: -24px !important;
         height: 6rem !important;
         width: 6rem !important;
     }
+    
+
 }
 
 @media (max-width: 762px) {
+    .main-section-wrapper {
+        flex-direction: column;
+        margin-top: 48px;
+
+    }
+    .card-img {
+        max-width: 100% !important;
+        height: auto !important;
+      }
     .cards {
         display: none !important;
     }
@@ -63,11 +76,6 @@
         font-size: 1.3rem;
     }
 
-    .main-section-wrapper {
-        flex-direction: column;
-        margin-top: 48px;
-
-    }
 
     .main-section-wrapper h1 {
         font-size: 2.5rem;

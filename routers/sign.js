@@ -68,10 +68,12 @@ router.post("/signIn", async (req, res) => {
         surname: surname,
         email: email,
         avatar: "/assets/profile-none-img.png",
+        isAdmin: false,
       };
     }
+    console.log(req.session.user);
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     res.status(500).render("500");
   }
 
@@ -104,6 +106,7 @@ router.post("/logIn", async (req, res) => {
         surname: existingUser[0].surname,
         email: existingUser[0].email,
         avatar: existingUser[0].user_img_url,
+        isAdmin: existingUser[0].isAdmin,
       };
       req.session.save(() => {
         res.redirect("/arts");
@@ -163,6 +166,7 @@ router.post("/profile", upload.single("avatar"), async (req, res) => {
       surname: surname,
       email: email,
       avatar: imageLocation,
+      isAdmin: existingUser[0].isAdmin,
     };
     console.log(req.session.user);
     await dbHandler.updateUser(req.session.user);
@@ -170,6 +174,41 @@ router.post("/profile", upload.single("avatar"), async (req, res) => {
       res.redirect("/profile");
     });
     return;
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).render("500");
+  }
+});
+
+router.get("/adminPanel", async (req, res) => {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return res.status(401).render("401");
+  }
+  const users = await dbHandler.getAllUsers();
+  return res.render("adminPanel", { users });
+});
+
+router.get("/getAllUsers", async (req, res) => {
+  const users = await dbHandler.getAllUsers();
+  return res.json(users);
+});
+
+router.post(`/adminPanel/setUserAdmin`, async (req, res) => {
+  try {
+    const { id, isAdmin } = req.body;
+    await dbHandler.setUserAdmin(id, isAdmin);
+    return res.status(200).json({});
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).render("500");
+  }
+});
+
+router.post(`/adminPanel/deleteUser`, async (req, res) => {
+  try {
+    const { id } = req.body;
+    await dbHandler.deleteUser(id);
+    return res.status(200).json({});
   } catch (error) {
     console.log(error.message);
     res.status(500).render("500");

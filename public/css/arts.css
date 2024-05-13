@@ -180,3 +180,10 @@ hr {
   gap: 1rem;
   overflow: auto;
 }
+.delete-btn {
+  font-size: 1rem !important;
+  color: white !important;
+  background-color: var(--c_accent) !important;
+  border-radius: 0.7rem !important;
+  padding: 0.2rem 1rem !important;
+}

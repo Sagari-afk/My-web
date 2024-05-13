@@ -70,3 +70,66 @@ label {
   font-size: 1rem;
   font-weight: 400;
 }
+
+.admin-panel {
+  width: 100%;
+}
+.admin-panel h1 {
+  text-align: center;
+}
+.admin-panel img {
+  width: 7rem;
+  height: 7rem;
+}
+
+.profiles {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+.profile {
+  display: flex;
+  gap: 3rem;
+  padding: 1rem 2rem;
+  border-radius: 5rem;
+  border: 1.5px solid #7751bd;
+}
+.admin-panel .profile-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  align-items: center;
+}
+.btns div {
+  display: flex;
+}
+label {
+  font-size: 1.8rem;
+}
+.admin-panel input {
+  width: 1rem;
+  margin: 0rem 0.5rem !important;
+}
+.admin-panel p {
+  font-weight: 700;
+}
+.admin-panel .profile-content div:first-child {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.delete {
+  color: white;
+  font-family: Aspekta;
+  font-size: 1.3rem;
+  background-color: var(--c_accent);
+  border: 0px;
+  padding: 0.2rem 1rem;
+  border-radius: 1.5rem;
+}

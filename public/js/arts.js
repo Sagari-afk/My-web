@@ -102,7 +102,6 @@ const getArts = async () => {
 
 const showNextAns = async (backwards) => {
   try {
-    console.log();
     const respData = await getArts();
     page += backwards ? -1 : 1;
     const maxPage = parseInt(Math.ceil(respData.length / 5));
@@ -111,7 +110,7 @@ const showNextAns = async (backwards) => {
     if (page > maxPage) page = 1;
     pageNumElement.textContent = `${page} / ${maxPage}`;
 
-    const artsLis = createArtsData(respData, page);
+    const artsLis = await createArtsData(respData, page);
     artsContainer.innerHTML = "";
     artsContainer.appendChild(artsLis);
 
@@ -153,29 +152,24 @@ const likeFunc = async (
   event.preventDefault();
   let clickCount = likesImg.dataset.clickCount++;
 
-  console.log("clickCo unt", clickCount);
   if (clickCount % 2 === 0) {
-    console.log("like");
     if (modalLikesImg) modalLikesImg.src = "/assets/like_pressed_icon.svg";
     likesImg.src = "/assets/like_pressed_icon.svg";
     const [postData, options] = setArgsForReq(id, true);
     const response = await fetch(`/arts`, options);
     if (response.ok) {
       const resp = await response.json();
-      console.log(resp[0][0].likes_count + 1);
       likesP.textContent = `${resp[0][0].likes_count + 1} likes`;
       if (modalLikesP)
         modalLikesP.textContent = `${resp[0][0].likes_count + 1} likes`;
     }
   } else {
-    console.log("unlike");
     if (modalLikesImg) modalLikesImg.src = "/assets/like-icon.svg";
     likesImg.src = "/assets/like-icon.svg";
     const [postData, options] = setArgsForReq(id, false);
     const response = await fetch(`/arts`, options);
     if (response.ok) {
       const resp = await response.json();
-      console.log(resp[0][0].likes_count - 1);
       if (modalLikesP)
         modalLikesP.textContent = `${resp[0][0].likes_count - 1} likes`;
       likesP.textContent = `${resp[0][0].likes_count - 1} likes`;
@@ -202,7 +196,6 @@ const likePost = async (i, length) => {
     const likeImg = document.getElementById(`like${id}`);
     if (likeImg && res.isLiked) likeImg.src = "/assets/like_pressed_icon.svg";
 
-    console.log(modalLikesImg, modalLikesP);
     if (modalLikesImg && modalLikesP) {
       modalLikesImg.addEventListener("click", async (event) => {
         likesImg.dataset.openedModal = 1;
@@ -211,7 +204,6 @@ const likePost = async (i, length) => {
     }
     if (+likesImg.dataset.openedModal == 0) {
       likesImg.addEventListener("click", async (event) => {
-        console.log("pridam", +likesImg.dataset.openedModal);
         likesImg.dataset.openedModal = 1;
         likeFunc(event, likesP, modalLikesP, modalLikesImg, likesImg, id);
       });
@@ -242,16 +234,15 @@ const copyShareUrl = async (i, length) => {
     const shareImg = document.getElementById(`share${i}`);
     const modalShareImg = document.getElementById(`modal-share${i}`);
     const id = i;
-    console.log(modalShareImg);
     if (modalShareImg) {
-      console.log(modalShareImg);
       modalShareImg.addEventListener("click", async (event) => {
         shareFunc(event, id, modalShareImg);
       });
     }
-    shareImg.addEventListener("click", async (event) => {
-      shareFunc(event, id, shareImg);
-    });
+    if (shareImg)
+      shareImg.addEventListener("click", async (event) => {
+        shareFunc(event, id, shareImg);
+      });
   }
 };
 
@@ -269,86 +260,8 @@ const createModal = (art) => {
         <p>${art.description}</p>
       </div>
 
-      <div class="view-comments">
-        <div
-          class="view-comment flex"
-          id="view-comment${art.art_id}"
-        >
-          <img
-            style="
-              width: 2.5rem;
-              height: 2.5rem;
-              border-radius: 3.125rem;
-              object-fit: cover;
-            "
-            src="/assets/temp-img.png"
-            alt=""
-          />
-          <div class="flex">
-            <p class="user-name">sagarkalis</p>
-            <p class="user-comment">wooow cute</p>
-          </div>
-        </div>
-
-        <div
-          class="view-comment flex"
-          id="view-comment${art.art_id}"
-        >
-          <img
-            style="
-              width: 2.5rem;
-              height: 2.5rem;
-              border-radius: 3.125rem;
-              object-fit: cover;
-            "
-            src="/assets/temp-img.png"
-            alt=""
-          />
-          <div class="flex">
-            <p class="user-name">sagarkalis</p>
-            <p class="user-comment">wooow cute</p>
-          </div>
-        </div>
-
-        <div
-          class="view-comment flex"
-          id="view-comment${art.art_id}"
-        >
-          <img
-            style="
-              width: 2.5rem;
-              height: 2.5rem;
-              border-radius: 3.125rem;
-              object-fit: cover;
-            "
-            src="/assets/temp-img.png"
-            alt=""
-          />
-          <div class="flex">
-            <p class="user-name">sagarkalis</p>
-            <p class="user-comment">wooow cute</p>
-          </div>
-        </div>
-
-        <div
-          class="view-comment flex"
-          id="view-comment${art.art_id}"
-        >
-          <img
-            style="
-              width: 2.5rem;
-              height: 2.5rem;
-              border-radius: 3.125rem;
-              object-fit: cover;
-            "
-            src="/assets/temp-img.png"
-            alt=""
-          />
-          <div class="flex">
-            <p class="user-name">sagarkalis</p>
-            <p class="user-comment">wooow cute</p>
-          </div>
-        </div>
+      <div id="view-comments" class="view-comments">
+        
       </div>
     </div>
 
@@ -417,11 +330,11 @@ const createModal = (art) => {
               placeholder="Add a comment..."
               type="comment"
               class="comment"
-              id="comment"
+              id="comment-input${art.art_id}"
               name="comment"
             />
             <div class="Send">
-              <button>Send</button>s
+              <button id="btn-send${art.art_id}" >Send</button>
             </div>
           </div>
         </div>
@@ -445,7 +358,6 @@ const showModal = async (i, length) => {
 
       const art = respData[id - 1];
       const modalContent = createModal(art);
-      console.log("Likes count: ", art.likes_count);
       modalContainer.innerHTML = "";
 
       modalContainer.classList.add("modal");
@@ -453,16 +365,35 @@ const showModal = async (i, length) => {
 
       const response = await fetch(`/isLiked/${id}/${user_id}`);
       const res = await response.json();
-      console.log("mrow", res, res.isLiked);
 
       const modalLikesImg = document.getElementById(`modal-like${id}`);
-      const modalLikesP = document.getElementById(`modal-like-p${id}`);
 
       if (modalLikesImg && res.isLiked)
         modalLikesImg.src = "/assets/like_pressed_icon.svg";
 
-      copyShareUrl(1, 5);
-      likePost(1, 5);
+      getComments(id);
+      copyShareUrl(i - 5, i);
+      likePost(i - 5, i);
+
+      const btnSend = document.getElementById(`btn-send${id}`);
+      const commentinput = document.getElementById(`comment-input${id}`);
+      btnSend.addEventListener("click", async () => {
+        const postData = {
+          art_id: id,
+          user_id: user_id,
+          comment_text: commentinput.value,
+        };
+        await fetch(`/arts/sendComment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+        commentinput.value = null;
+        console.log(commentinput);
+        getComments(id);
+      });
     });
   }
 };
@@ -476,8 +407,76 @@ window.onclick = (event) => {
   }
 };
 
+const createComments = async (comments) => {
+  const div = document.getElementById("view-comments");
+  div.innerHTML = "";
+  for (let comment of comments) {
+    let user = await fetch(`/getUserById/${comment.user_id}`);
+    user = await user.json();
+    user = user[0];
+    div.innerHTML =
+      div.innerHTML +
+      `
+      <div class="view-comment flex" id="view-comment${comment.comment_id}">
+        <img
+          style="
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 3.125rem;
+            object-fit: cover;
+          "
+          src="${user.user_img_url}"
+          alt=""
+        />
+        <div class="flex">
+          <p class="user-name">${user.name}</p>
+          <p class="user-comment">${comment.comment_text}</p>
+        </div>
+        <div id="deleteBtnDiv${comment.comment_id}-${comment.art_id}"> </div>
+      </div>
+    `;
+    let c = comment;
+    console.log(user.isAdmin);
+    let currentUser = await fetch(`/getUserById/${user_id}`);
+    currentUser = await currentUser.json();
+    currentUser = currentUser[0];
+    if (user.user_id === user_id || currentUser.isAdmin) {
+      const viewDiv = document.getElementById(
+        `deleteBtnDiv${comment.comment_id}-${comment.art_id}`
+      );
+      const btn = document.createElement("button");
+      btn.textContent = "DELETE";
+      btn.classList.add("delete-btn");
+
+      btn.addEventListener("click", async () => {
+        postData = {
+          comment_id: c.comment_id,
+        };
+        await fetch(`/deleteComment`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+        const commentDiv = document.getElementById(
+          `view-comment${c.comment_id}`
+        );
+        commentDiv.remove();
+      });
+      viewDiv.appendChild(btn);
+    }
+  }
+};
+
+const getComments = async (id) => {
+  const response = await fetch(`/arts/comments/${id}`);
+  let comments = await response.json();
+  comments = comments[0];
+  await createComments(comments);
+};
+
 const user_id = document.body.dataset.userId;
-console.log(user_id);
 
 copyShareUrl(1, 5);
 likePost(1, 5);

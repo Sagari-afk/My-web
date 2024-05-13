@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("includes/head.ejs") %>
+    <link rel="stylesheet" href="/css/sign.css" />
+    <script src="js/adminPanel.js" defer></script>
+  </head>
+  <body>
+    <%- include("includes/header.ejs") %>
+    <section class="centered-container toFill">
+      <div class="container">
+        <div class="admin-panel">
+          <h1>ADMIN PANEL</h1>
+
+          <% for (user of users) { %>
+          <div class="profiles">
+            <div id="profile<%= user.user_id %>" class="profile">
+              <img
+                class="profile-img"
+                id="profile-img1"
+                src="<%= user.user_img_url %>"
+                alt=""
+              />
+              <div class="profile-content">
+                <div>
+                  <p><%= user.name %></p>
+                  <p><%= user.surname %></p>
+                </div>
+
+                <div class="btns">
+                  <div>
+                    <input
+                      type="checkbox"
+                      id="isAdmin<%= user.user_id %>"
+                      name="isAdmin"
+                      value="isAdmin"
+                    />
+                    <label for="isAdmin">Is admin</label><br />
+                  </div>
+
+                  <button class="delete" id="delete<%= user.user_id %>">
+                    DELETE USER
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% } %>
+        </div>
+      </div>
+    </section>
+    <%- include("includes/footer.ejs") %>
+  </body>
+</html>
