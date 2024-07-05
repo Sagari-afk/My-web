@@ -23,7 +23,7 @@ const getInstPostsIds = async () => {
 const getInstPostById = async (postId) => {
   let postData = {};
   await fetch(
-    `https://graph.instagram.com/${postId}?fields=id,permalink,media_type,media_url,caption&access_token=${process.env.INSTAGRAM_ACCESS_TOKEN}`
+    `https://graph.instagram.com/${postId}?fields=id,permalink,timestamp,media_type,media_url,caption&access_token=${process.env.INSTAGRAM_ACCESS_TOKEN}`
   )
     .then((response) => response.json())
     .then((data) => {

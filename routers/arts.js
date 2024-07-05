@@ -4,11 +4,13 @@ const dbHandler = require("../utils/dbHandler");
 
 router.get("/arts", async (req, res) => {
   try {
-    if (!req.session.user) {
-      return res.status(401).render("401");
-    }
-    // await dbHandler.init(); // Uz bolo spustene
+    // if (!req.session.user) {
+    //   return res.status(401).render("401");
+    // }
+    await dbHandler.init(); // Uz bolo spustene
+
     await dbHandler.updateArts();
+    // await dbHandler.updateLinksOnArts();
     const allArts = await dbHandler.getAllArts();
 
     let arts;
@@ -19,10 +21,12 @@ router.get("/arts", async (req, res) => {
       // Get all posts if no search keyword is provided
       arts = allArts;
     }
+    arts.sort((a, b) => b.date - a.date);
 
     return res.render("arts", {
       arts: arts,
       allArts: allArts,
+      user_id:  res.locals.user,
     });
   } catch (error) {
     console.log(error);
@@ -43,6 +47,7 @@ router.get("/getArts/search=:search", async (req, res) => {
       // Get all posts if no search keyword is provided
       arts = allArts;
     }
+    arts.sort((a, b) => b.date - a.date);
 
     return res.json(arts);
   } catch (error) {

@@ -187,7 +187,7 @@ const likePost = async (i, length) => {
 
     const modalLikesImg = document.getElementById(`modal-like${i}`);
     const modalLikesP = document.getElementById(`modal-like-p${i}`);
-    let clickCount = res.isLiked ? 1 : 0;
+    if (res.isLiked) { let clickCount = res.isLiked ? 1 : 0; } 
     const id = i;
 
     likesImg.dataset.clickCount = clickCount;

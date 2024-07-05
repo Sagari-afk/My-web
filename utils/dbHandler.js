@@ -3,16 +3,20 @@ const instHandler = require("../utils/instagramHandler");
 
 const init = async () => {
   const instPostIds = await instHandler.getInstPostsIds();
+  // create ARTS table in DB
   await db.query(`
               CREATE TABLE IF NOT EXISTS arts  (
               art_id INT NOT NULL auto_increment,
               img_url TEXT NOT NULL,
-              title varchar(255) NOT NULL,
               description TEXT,
               likes_count INT default 0,
+              post_id VARCHAR(45) NOT NULL,
               post_url TEXT NOT NULL,
+              date DATETIME NOT NULL,
               primary key(art_id)
           );`);
+
+  // create USERS table in DB
   await db.query(`
       CREATE TABLE IF NOT EXISTS users(
       user_id INT NOT NULL AUTO_INCREMENT,
@@ -23,8 +27,34 @@ const init = async () => {
       salt varchar(255) NOT NULL,
       PRIMARY KEY (user_id)
   );`);
+
+  // create LIKES table in DB
+  await db.query(`
+      CREATE TABLE IF NOT EXISTS likes(
+      like_id INT NOT NULL AUTO_INCREMENT,
+      user_id INT NOT NULL,
+      art_id INT NOT NULL,
+      PRIMARY KEY (like_id),
+      FOREIGN KEY (user_id) REFERENCES users(user_id),
+      FOREIGN KEY (art_id) REFERENCES arts(art_id)
+  );`);
+
+    // create COMMENTS table in DB
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS comments(
+      comment_id INT NOT NULL AUTO_INCREMENT,
+      user_id INT NOT NULL,
+      art_id INT NOT NULL,
+      comment_text TEXT NOT NULL,
+      PRIMARY KEY (comment_id),
+      FOREIGN KEY (user_id) REFERENCES users(user_id),
+      FOREIGN KEY (art_id) REFERENCES arts(art_id)
+  );`);
+
+  // add arts to db if not exists
   for (id of instPostIds) {
-    insertArt(id);
+    const art = getArtsBy("post_id", id);
+    if (!art) insertArt(id);
   }
 };
 
@@ -41,6 +71,15 @@ const getUserBy = async (col, value) => {
   const [records] = await db.query(
     `
   SELECT * FROM users WHERE ${col} = ?
+  `,
+    value
+  );
+  return records;
+};
+const getArtsBy = async (col, value) => {
+  const [records] = await db.query(
+    `
+  SELECT * FROM arts WHERE ${col} = ?
   `,
     value
   );
@@ -68,9 +107,9 @@ const insertArt = async (id) => {
   const temp = await instHandler.getInstPostById(id);
   await db.query(
     `
-          INSERT INTO arts (img_url, title, description, post_id, post_url) VALUES
+          INSERT INTO arts (img_url, description, post_id, post_url, date) VALUES
           (?, ?, ?, ?, ?);`,
-    [temp.media_url, "Art", temp.caption, id, temp.permalink]
+    [temp.media_url, temp.caption, id, temp.permalink, new Date(temp.timestamp)]
   );
 };
 
@@ -145,6 +184,25 @@ const updateArts = async () => {
     }
   }
 };
+
+const updateLinksOnArts = async () => {
+  const instagramPosts = await getAllArts();
+  for (post of instagramPosts) {
+    const postFromInstAPI = await instHandler.getInstPostById(post.post_id);
+    if (postFromInstAPI.media_url !== post.img_url) {
+      if (!postFromInstAPI.media_url) {
+        continue
+      }
+      console.log(`Img url of post with post_id ${post.post_id} was updated`)
+      await db.query(
+        `
+      UPDATE arts SET img_url = (?) WHERE post_id = (?)`,
+        [postFromInstAPI.media_url, post.post_id]
+      );
+    }
+  }
+
+}
 
 const getArtsByKeyWord = async (keyWord) => {
   keyWord = "%" + keyWord + "%";
@@ -222,6 +280,8 @@ module.exports = {
   init,
   getAllArts,
   updateArts,
+  updateLinksOnArts,
+
   getArtsByKeyWord,
   likeById,
   dislikeById,
