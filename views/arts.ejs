@@ -9,7 +9,6 @@
     <%- include("includes/header.ejs") %>
     <section class="centered-container head">
       <div class="container">
-
         <div class="centered-content">
           <div class="text-centered">
             <h1>GALLERY</h1>
@@ -22,7 +21,6 @@
             <img class="card" src="<%= allArts[3].img_url %>" alt="" />
           </div>
         </div>
-        
       </div>
     </section>
 
@@ -30,7 +28,6 @@
 
     <section class="centered-container">
       <div class="container">
-
         <div class="arts-content">
           <div class="search-wrapper">
             <form class="search">
@@ -47,22 +44,24 @@
 
           <div class="arts-container" id="arts-container">
             <ul>
-              <% if (arts.length === 0) { %>
+              <% if (allArts.length === 0) { %>
               <p>NO ARTS</p>
-              <% } else { %> <% for (let i = 0; i < 5; i++) { %> <% if (arts[i]) {
-              %> <%- include("includes/artItem.ejs", { artUrl: arts[i].img_url,
-              description: arts[i].description, artLikes: arts[i].likes_count, url:
-              arts[i].post_url, id:arts[i].art_id }) %> <% } %> <% } %> <% } %>
+              <% } else { %> <% for (let i = 0; i < 5; i++) { %> <% if
+              (allArts[i]) { %> <%- include("includes/artItem.ejs", { artUrl:
+              allArts[i].img_url, description: allArts[i].description, artLikes:
+              allArts[i].likes_count, url: allArts[i].post_url,
+              id:allArts[i].art_id }) %> <% } %> <% } %> <% } %>
             </ul>
           </div>
 
           <div class="flex margin">
             <button id="prev-btn"><</button>
-            <p id="pageNum">1 / <%= parseInt(Math.ceil(arts.length / 5)); %></p>
+            <p id="pageNum">
+              1 / <%= parseInt(Math.ceil(allArts.length / 5)); %>
+            </p>
             <button id="next-btn">></button>
           </div>
         </div>
-
       </div>
     </section>
 

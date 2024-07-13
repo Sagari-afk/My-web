@@ -1,5 +1,4 @@
 const openCloseSidebar = () => {
-    console.log("aaa");
     const sidebarMenu = document.getElementById("sidebar-menu");
     const menuIcon = document.getElementById("hamb-icon");
     sidebarMenu.classList.toggle("open");

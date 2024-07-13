@@ -44,6 +44,7 @@ const createArtsData = async (answers, page) => {
       }
 
       const li = document.createElement("li");
+      li.setAttribute("id", `li${answers[i].art_id}`);
       li.innerHTML = `
       <img class="card-img" src="${answers[i].img_url}" alt="" />
 
@@ -114,9 +115,9 @@ const showNextAns = async (backwards) => {
     artsContainer.innerHTML = "";
     artsContainer.appendChild(artsLis);
 
-    likePost(5 * page - 4, 5 * page);
-    copyShareUrl(5 * page - 4, 5 * page);
-    showModal(5 * page - 4, 5 * page);
+    likePost();
+    copyShareUrl();
+    showModal();
   } catch (error) {
     console.log(error.message);
     // alert("Communication error with server!");
@@ -177,8 +178,9 @@ const likeFunc = async (
   }
 };
 
-const likePost = async (i, length) => {
-  for (i; i <= length; i++) {
+const likePost = async () => {
+  const showedIds = getShowedPostsIds();
+  for (let i of showedIds) {
     const likesImg = document.getElementById(`like${i}`);
     const likesP = document.getElementById(`like-p${i}`);
 
@@ -187,7 +189,9 @@ const likePost = async (i, length) => {
 
     const modalLikesImg = document.getElementById(`modal-like${i}`);
     const modalLikesP = document.getElementById(`modal-like-p${i}`);
-    if (res.isLiked) { let clickCount = res.isLiked ? 1 : 0; } 
+    if (res.isLiked) {
+      let clickCount = res.isLiked ? 1 : 0;
+    }
     const id = i;
 
     likesImg.dataset.clickCount = clickCount;
@@ -229,8 +233,9 @@ const shareFunc = async (event, id, shareImg) => {
   }
 };
 
-const copyShareUrl = async (i, length) => {
-  for (i; i <= length; i++) {
+const copyShareUrl = async () => {
+  const showedIds = getShowedPostsIds();
+  for (let i of showedIds) {
     const shareImg = document.getElementById(`share${i}`);
     const modalShareImg = document.getElementById(`modal-share${i}`);
     const id = i;
@@ -345,11 +350,25 @@ const createModal = (art) => {
   return modalContent;
 };
 
+const getShowedPostsIds = () => {
+  let ul = document.querySelector("ul");
+  ul = ul.getElementsByTagName("li");
+  let showedPostsIds = [];
+
+  for (let li of ul) {
+    const id = li.id;
+    showedPostsIds.push(parseInt(id.slice(2)));
+  }
+  return showedPostsIds;
+};
+
 const modalContainer = document.getElementById("modal");
 
-const showModal = async (i, length) => {
-  for (i; i <= length; i++) {
+const showModal = async () => {
+  const showedIds = getShowedPostsIds();
+  for (let i of showedIds) {
     const btnMore = document.getElementById(`btn-more${i}`);
+    console.log(btnMore);
 
     const id = i;
     btnMore.addEventListener("click", async (event) => {
@@ -372,8 +391,8 @@ const showModal = async (i, length) => {
         modalLikesImg.src = "/assets/like_pressed_icon.svg";
 
       getComments(id);
-      copyShareUrl(i - 5, i);
-      likePost(i - 5, i);
+      copyShareUrl();
+      likePost();
 
       const btnSend = document.getElementById(`btn-send${id}`);
       const commentinput = document.getElementById(`comment-input${id}`);
@@ -478,6 +497,7 @@ const getComments = async (id) => {
 
 const user_id = document.body.dataset.userId;
 
-copyShareUrl(1, 5);
-likePost(1, 5);
-showModal(1, 5);
+console.log(getShowedPostsIds());
+copyShareUrl();
+likePost();
+showModal();

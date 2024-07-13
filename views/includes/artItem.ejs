@@ -1,4 +1,4 @@
-<li class="art-item">
+<li class="art-item" id="li<%= id %>">
   <div class="card-img-cont">
     <img class="card-img" src="<%= artUrl %>" alt="" />
   </div>
@@ -7,7 +7,7 @@
     <div class="card-datails">
       <h2>ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧</h2>
       <p><%= description %></p>
-  
+
       <div class="comment-part">
         <div class="react">
           <div class="icons">
@@ -32,7 +32,7 @@
             />
           </div>
           <p id="like-p<%= id %>" class="post-likes"><%= artLikes %> likes</p>
-  
+
           <input
             placeholder="Add a comment..."
             type="comment"
